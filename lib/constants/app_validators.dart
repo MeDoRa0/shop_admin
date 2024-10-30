@@ -1,6 +1,6 @@
-class AuthValidators {
+class AppValidators {
   static String? uploadProductTexts(
-      [String? value, String? toBeReturnedString]) {
+      {String? value, String? toBeReturnedString}) {
     if (value!.isEmpty) {
       return toBeReturnedString;
     }

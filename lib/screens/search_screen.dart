@@ -1,8 +1,6 @@
-
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_admin/constants/assets.dart';
 import 'package:shop_admin/models/product_model.dart';
 import 'package:shop_admin/providers/product_provider.dart';
 import 'package:shop_admin/widgets/product_item.dart';
@@ -22,7 +20,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     searchTextController = TextEditingController();
     super.initState();
-    
   }
 
   @override
@@ -53,13 +50,11 @@ class _SearchScreenState extends State<SearchScreen> {
           title: TitleText(
             label: passedCategory ?? 'Search',
           ),
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(Assets.imagesShoppingCart),
-          ),
         ),
         body: productList.isEmpty
-            ? Center(child: TitleText(label: 'No product found'),)
+            ? const Center(
+                child: TitleText(label: 'No product found'),
+              )
             : Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -81,7 +76,6 @@ class _SearchScreenState extends State<SearchScreen> {
                           icon: const Icon(Icons.clear),
                         ),
                       ),
-                
                       onSubmitted: (value) {
                         setState(() {
                           productListSearch = productProvider.searchQuery(
