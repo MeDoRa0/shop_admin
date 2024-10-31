@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shop_admin/constants/app_constants.dart';
 import 'package:shop_admin/constants/app_validators.dart';
 import 'package:shop_admin/service/app_methods.dart';
 import 'package:shop_admin/widgets/subtitle_text.dart';
@@ -26,7 +27,7 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
       _priceController,
       _descriptionController,
       _quantityController;
-
+  String? _categoryValue;
   @override
   void initState() {
     // _categoryController = TextEditingController();
@@ -64,6 +65,13 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
   }
 
   Future<void> _uploadProduct() async {
+    if (_categoryValue == null) {
+      AppMethods.showErrorORWarningDialog(
+          context: context,
+          subtitle: 'please select product category',
+          fct: () {});
+      return;
+    }
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
@@ -105,6 +113,7 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        //the bottomsheet make this widget appear in bottom of screen
         bottomSheet: SizedBox(
           height: kBottomNavigationBarHeight + 10,
           child: Material(
@@ -122,10 +131,14 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
                       ),
                     ),
                   ),
-                  icon: const Icon(Icons.clear),
+                  icon: const Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                  ),
                   label: const Text(
                     "Clear",
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 20,
                     ),
                   ),
@@ -148,7 +161,9 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
                       fontSize: 20,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _uploadProduct();
+                  },
                 ),
               ],
             ),
@@ -174,7 +189,16 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                //TODO: Add Choose Category Widget
+                DropdownButton(
+                  hint: const Text('select category'),
+                  value: _categoryValue,
+                  items: AppConstants.categoriesDropdownList,
+                  onChanged: (String? value) {
+                    setState(() {
+                      _categoryValue = value;
+                    });
+                  },
+                ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -294,7 +318,7 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
                   height: MediaQuery.of(context).viewInsets.bottom > 0.0
                       ? 10
                       : kBottomNavigationBarHeight + 10,
-                )
+                ),
               ],
             ),
           ),
