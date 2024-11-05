@@ -1,9 +1,8 @@
-
-
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_admin/providers/product_provider.dart';
+import 'package:shop_admin/screens/edit_upload_product_form.dart';
 import 'package:shop_admin/widgets/subtitle_text.dart';
 import 'package:shop_admin/widgets/title_text.dart';
 
@@ -16,16 +15,20 @@ class ProductItem extends StatelessWidget {
     final productProvider = Provider.of<ProductProvider>(context);
 
     final getCurrentProduct = productProvider.findByProdId(productID);
-   
 
-   
     Size size = MediaQuery.of(context).size;
     return getCurrentProduct == null
         ? const SizedBox.shrink()
         : InkWell(
             onTap: () async {
-             
-           
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditOrUploadProductScreen(
+                    productModel: getCurrentProduct,
+                  ),
+                ),
+              );
             },
             child: Container(
               padding: const EdgeInsets.all(8),
@@ -48,7 +51,6 @@ class ProductItem extends StatelessWidget {
                           maxLines: 2,
                         ),
                       ),
-                      
                     ],
                   ),
                   Row(
@@ -58,7 +60,6 @@ class ProductItem extends StatelessWidget {
                         child: SubTitleText(
                             label: '${getCurrentProduct.productPrice}'),
                       ),
-                    
                     ],
                   ),
                 ],
