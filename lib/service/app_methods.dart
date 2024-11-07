@@ -5,69 +5,155 @@ import 'package:shop_admin/widgets/subtitle_text.dart';
 import 'package:shop_admin/widgets/title_text.dart';
 
 class AppMethods {
-
-    static Future<void> showErrorORWarningDialog({
+ 
+  static Future<void> alertOptionalDialog({
     required BuildContext context,
-    required String subtitle,
-    required Function fct,
-    bool isError = true,
+    required String label,
+    required Function function,
   }) async {
     await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0)),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  Assets.imagesWarning,
-                  height: 60,
-                  width: 60,
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                SubTitleText(
-                  label: subtitle,
-                  fontWeight: FontWeight.w600,
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Visibility(
-                      visible: !isError,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const SubTitleText(
-                            label: "Cancel", color: Colors.green),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        fct();
-                        Navigator.pop(context);
-                      },
-                      child: const SubTitleText(
-                          label: "OK", color: Colors.red),
-                    ),
-                  ],
-                )
-              ],
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                Assets.imagesWarning,
+                height: 60,
+                width: 60,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SubTitleText(
+                label: label,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+          actions: [
+            Visibility(
+              child: TextButton(
+                onPressed: () {
+                  function();
+                  Navigator.pop(context);
+                },
+                child: const TitleText(label: 'yes'),
+              ),
             ),
-          );
-        });
+            Visibility(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const TitleText(label: 'no'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
+    static Future<void> alertDialog({
+    required BuildContext context,
+    required String label,
+    required Function function,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                Assets.imagesWarning,
+                height: 60,
+                width: 60,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SubTitleText(
+                label: label,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+          actions: [
+          TextButton(
+                onPressed: () {
+                  function();
+                  Navigator.pop(context);
+                },
+                child: const TitleText(label: 'ok'),
+              ),
+          ],
+        );
+      },
+    );
+  }
 
-
+  static Future<void> errorDialog({
+    required BuildContext context,
+    required String label,
+    required Function function,
+    bool isError = false,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                Assets.imagesError,
+                height: 60,
+                width: 60,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SubTitleText(
+                label: label,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+            ],
+          ),
+          actions: [
+            Visibility(
+              visible: !isError,
+              child: TextButton(
+                onPressed: () {
+                  function();
+                  Navigator.pop(context);
+                },
+                child: const TitleText(label: 'ok'),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   static Future<void> imagePickerDialog(
       {required BuildContext context,
