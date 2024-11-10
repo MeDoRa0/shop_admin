@@ -1,5 +1,4 @@
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_admin/models/product_model.dart';
 import 'package:uuid/uuid.dart';
@@ -28,8 +27,9 @@ class ProductProvider with ChangeNotifier {
   }
 
   //search method
-    List<ProductModel> searchQuery({required String searchText,required List<ProductModel> passedList}) {
-List<ProductModel>searchList=passedList
+  List<ProductModel> searchQuery(
+      {required String searchText, required List<ProductModel> passedList}) {
+    List<ProductModel> searchList = passedList
         .where(
           (element) => element.productTitle
               .toLowerCase()
@@ -37,6 +37,38 @@ List<ProductModel>searchList=passedList
         )
         .toList();
     return searchList;
+  }
+
+  final productDB = FirebaseFirestore.instance.collection("products");
+  Future<List<ProductModel>> fetchProducts() async {
+    try {
+      await productDB.get().then((productsSnapshot) {
+        _products.clear();
+        for (var element in productsSnapshot.docs) {
+          _products.insert(0, ProductModel.fromFireStore(element));
+        }
+      });
+      notifyListeners();
+      return _products;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Stream<List<ProductModel>> fetchProdStream() {
+    try {
+      return productDB.snapshots().map(
+        (snapshot) {
+          _products.clear();
+          for (var element in snapshot.docs) {
+            _products.insert(0, ProductModel.fromFireStore(element));
+          }
+          return _products;
+        },
+      );
+    } catch (error) {
+      rethrow;
+    }
   }
 
   final List<ProductModel> _products = [

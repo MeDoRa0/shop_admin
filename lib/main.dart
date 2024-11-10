@@ -19,54 +19,56 @@ class ShopAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(),
-      builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            const Scaffold(
-              body: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Scaffold(
-              body: Center(
-                child: SelectableText(
-                    'an error has been occured ${snapshot.error}'),
-              ),
-            );
-          }
-        return
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(
-              create: (context) => ThemeProvider(),
-            ),
-            ChangeNotifierProvider(
-              create: (context) => ProductProvider(),
-            ),
-            ChangeNotifierProvider(
-              create: (context) => ImageProviderModel(),
-            ),
-          ],
-          //we can use Consumer to use ThemePovider
-          child: Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return MaterialApp(
-                theme: Styles.themeData(
-                    isDarkTheme: themeProvider.getIsDarkTheme,
-                    context: context),
-                title: 'shop user',
-                home: const DashboardScreen(),
-                routes: {
-                  SearchScreen.routeName: (context) => const SearchScreen(),
-                  OrderScreen.routName: (context) => const OrderScreen(),
-                  EditOrUploadProductScreen.routeName: (context) =>
-                      const EditOrUploadProductScreen(),
-                },
+    return MaterialApp(
+      home: FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              const Scaffold(
+                body: CircularProgressIndicator(),
               );
-            },
-          ),
-        );
-      },
+            } else if (snapshot.hasError) {
+              return Scaffold(
+                body: Center(
+                  child: SelectableText(
+                      'an error has been occured ${snapshot.error}'),
+                ),
+              );
+            }
+          return
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (context) => ThemeProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => ProductProvider(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => ImageProviderModel(),
+              ),
+            ],
+            //we can use Consumer to use ThemePovider
+            child: Consumer<ThemeProvider>(
+              builder: (context, themeProvider, child) {
+                return MaterialApp(
+                  theme: Styles.themeData(
+                      isDarkTheme: themeProvider.getIsDarkTheme,
+                      context: context),
+                  title: 'shop user',
+                  home: const DashboardScreen(),
+                  routes: {
+                    SearchScreen.routeName: (context) => const SearchScreen(),
+                    OrderScreen.routName: (context) => const OrderScreen(),
+                    EditOrUploadProductScreen.routeName: (context) =>
+                        const EditOrUploadProductScreen(),
+                  },
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

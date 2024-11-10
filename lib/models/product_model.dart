@@ -20,4 +20,16 @@ class ProductModel with ChangeNotifier {
       required this.productQuantity,
        this.createdAt,
       required this.productPrice});
+        factory ProductModel.fromFireStore(DocumentSnapshot doc) {
+    Map data = doc.data() as Map<String, dynamic>;
+    return ProductModel(
+      productID: data['productId'],
+      productCategory: data['productCategory'],
+      productTitle: data['productTitle'],
+      productDescription: data['productDescription'],
+      productImage: data['productImage'],
+      productQuantity: data['productQuantity'],
+      productPrice: double.parse(data['productPrice']),
+    );
+  }
 }
