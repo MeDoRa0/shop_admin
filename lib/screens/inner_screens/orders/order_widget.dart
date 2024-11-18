@@ -1,13 +1,13 @@
-
-
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shop_admin/constants/app_constants.dart';
+import 'package:shop_admin/models/orders_model.dart';
 import 'package:shop_admin/widgets/subtitle_text.dart';
 import 'package:shop_admin/widgets/title_text.dart';
 
 class OrderWidget extends StatefulWidget {
-  const OrderWidget({super.key});
+  const OrderWidget({super.key, required this.orderModel});
+
+  final OrderModel orderModel;
 
   @override
   State<OrderWidget> createState() => _OrderWidgetState();
@@ -27,9 +27,9 @@ class _OrderWidgetState extends State<OrderWidget> {
             child: FancyShimmerImage(
                 height: size.height * 0.20,
                 width: size.width * 0.30,
-                imageUrl: AppConstants.productImageUrl),
+                imageUrl:widget.orderModel.imageUrl),
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           Flexible(
@@ -41,9 +41,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Flexible(
+                       Flexible(
                         child: TitleText(
-                          label: 'product title',
+                          label:widget.orderModel.productTitle ,
                           maxLines: 2,
                         ),
                       ),
@@ -53,15 +53,15 @@ class _OrderWidgetState extends State<OrderWidget> {
                       ),
                     ],
                   ),
-                  const Row(
+                   Row(
                     children: [
-                      TitleText(
+                      const TitleText(
                         label: 'price:  ',
                         fontSize: 15,
                       ),
                       Flexible(
                         child: SubTitleText(
-                          label: '12,70',
+                          label: widget.orderModel.price.toString(),
                         ),
                       ),
                     ],
@@ -69,9 +69,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                   const SizedBox(
                     height: 5,
                   ),
-                  const Row(
+                   Row(
                     children: [
-                      Flexible(
+                      const Flexible(
                         child: TitleText(
                           label: 'Qty:  ',
                           fontSize: 16,
@@ -79,7 +79,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                       ),
                       Flexible(
                         child: SubTitleText(
-                          label: '1',
+                          label: widget.orderModel.quantity.toString(),
                           fontSize: 15,
                         ),
                       ),

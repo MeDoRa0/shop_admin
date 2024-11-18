@@ -9,11 +9,11 @@ class EmptyScreen extends StatelessWidget {
     super.key,
     required this.imagePath,
     required this.title,
-    required this.subtilte,
-    required this.buttonText,
+    
+   
   });
 
-  final String imagePath, title, subtilte, buttonText;
+  final String imagePath, title;
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +45,7 @@ class EmptyScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SubTitleText(
-                label: subtilte,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+         
       
           ],
         ),

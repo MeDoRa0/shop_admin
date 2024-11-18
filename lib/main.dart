@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_admin/constants/theme_data.dart';
 import 'package:shop_admin/providers/image_provider.dart';
+import 'package:shop_admin/providers/orders_providers.dart';
 import 'package:shop_admin/providers/product_provider.dart';
 import 'package:shop_admin/providers/theme_provider.dart';
 import 'package:shop_admin/screens/dashboard_screen.dart';
@@ -46,6 +47,7 @@ class ShopAdmin extends StatelessWidget {
               ChangeNotifierProvider(
                 create: (context) => ImageProviderModel(),
               ),
+              ChangeNotifierProvider(create: (context) => OrderProvider(),),
             ],
             //we can use Consumer to use ThemePovider
             child: Consumer<ThemeProvider>(
