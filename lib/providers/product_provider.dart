@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_admin/models/product_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -70,6 +71,35 @@ class ProductProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+
+  /// Delete product method
+  Future<void> deleteProduct(String productID) async {
+    try {
+      // Remove from Firebase
+      final productDoc = await productDB.doc(productID).get();
+      if (productDoc.exists) {
+        await productDB.doc(productID).delete();
+      }
+
+      // Remove locally
+      _products.removeWhere((product) => product.productID == productID);
+
+      Fluttertoast.showToast(
+        msg: 'Product has been deleted successfully.',
+        backgroundColor: Colors.blueGrey,
+      );
+
+      notifyListeners();
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: 'Failed to delete product: $error',
+        backgroundColor: Colors.red,
+      );
+      rethrow;
+    }
+  }
+
 
   final List<ProductModel> _products = [
     // Phones

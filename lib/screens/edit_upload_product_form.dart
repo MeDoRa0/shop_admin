@@ -12,6 +12,7 @@ import 'dart:io';
 
 import 'package:shop_admin/models/product_model.dart';
 import 'package:shop_admin/providers/image_provider.dart';
+import 'package:shop_admin/providers/product_provider.dart';
 import 'package:shop_admin/service/app_methods.dart';
 import 'package:shop_admin/widgets/loading_manager.dart';
 import 'package:shop_admin/widgets/subtitle_text.dart';
@@ -273,6 +274,7 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final imageProvider = context.watch<ImageProviderModel>();
+    final productProvider = Provider.of<ProductProvider>(context);
     return LoadingManager(
       isLoading: _isLoading,
       child: GestureDetector(
@@ -342,6 +344,22 @@ class _EditOrUploadProductScreenState extends State<EditOrUploadProductScreen> {
             ),
           ),
           appBar: AppBar(
+            actions: [
+              if (isEditing)
+                IconButton(
+                  onPressed: () {
+                    AppMethods.alertOptionalDialog(
+                        context: context,
+                        label: 'delete this item',
+                        function: () async {
+                          await productProvider
+                              .deleteProduct(widget.productModel!.productID);
+                          Navigator.pop(context);
+                        });
+                  },
+                  icon: const Icon(Icons.delete),
+                )
+            ],
             title: Text(
               isEditing ? 'Edit Product' : 'Add new product',
             ),

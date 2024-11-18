@@ -23,20 +23,19 @@ class ShopAdmin extends StatelessWidget {
       home: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              const Scaffold(
-                body: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Scaffold(
-                body: Center(
-                  child: SelectableText(
-                      'an error has been occured ${snapshot.error}'),
-                ),
-              );
-            }
-          return
-          MultiProvider(
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            const Scaffold(
+              body: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Scaffold(
+              body: Center(
+                child: SelectableText(
+                    'an error has been occured ${snapshot.error}'),
+              ),
+            );
+          }
+          return MultiProvider(
             providers: [
               ChangeNotifierProvider(
                 create: (context) => ThemeProvider(),
