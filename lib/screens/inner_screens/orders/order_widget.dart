@@ -27,7 +27,7 @@ class _OrderWidgetState extends State<OrderWidget> {
             child: FancyShimmerImage(
                 height: size.height * 0.20,
                 width: size.width * 0.30,
-                imageUrl:widget.orderModel.imageUrl),
+                imageUrl: widget.orderModel.imageUrl),
           ),
           const SizedBox(
             width: 16,
@@ -41,9 +41,9 @@ class _OrderWidgetState extends State<OrderWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Flexible(
+                      Flexible(
                         child: TitleText(
-                          label:widget.orderModel.productTitle ,
+                          label: widget.orderModel.productTitle,
                           maxLines: 2,
                         ),
                       ),
@@ -53,7 +53,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                       ),
                     ],
                   ),
-                   Row(
+                  Row(
                     children: [
                       const TitleText(
                         label: 'price:  ',
@@ -69,7 +69,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                   const SizedBox(
                     height: 5,
                   ),
-                   Row(
+                  Row(
                     children: [
                       const Flexible(
                         child: TitleText(
@@ -91,7 +91,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

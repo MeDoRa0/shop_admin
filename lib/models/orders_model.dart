@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class OrderModel with ChangeNotifier {
   final String orderId;
   final String userId;
-  final String productId;
+final String productId;
   final String productTitle;
   final String userName;
   final double price;
@@ -16,8 +16,8 @@ class OrderModel with ChangeNotifier {
   OrderModel({
     required this.orderId,
     required this.userId,
-    required this.productId,
-    required this.productTitle,
+required this.productId,
+   required this.productTitle,
     required this.userName,
     required this.price,
     required this.imageUrl,
@@ -27,7 +27,7 @@ class OrderModel with ChangeNotifier {
   factory OrderModel.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data() as Map<String, dynamic>;
     return OrderModel(
-        orderId: data['orderId'],
+        orderId: data['sharedOrderId'],
         userId: data['userId'],
         productId: data['productId'],
         productTitle: data['productTitle'],

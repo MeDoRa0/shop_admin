@@ -22,44 +22,45 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     final orderProvider = Provider.of<OrderProvider>(context);
     return Scaffold(
-        appBar: AppBar(
-          title: const TitleText(label: 'customers orders'),
-        ),
-        body: FutureBuilder<List<OrderModel>>(
-          future: orderProvider.fetchOrder(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: SelectableText(
-                    'an error has been occured ${snapshot.error}'),
-              );
-            } else if (!snapshot.hasData || orderProvider.getOrders.isEmpty) {
-              return const EmptyScreen(
-                imagePath: Assets.imagesDashboardOrder,
-                title: 'there is no orders right now',
-              );
-            }
+      appBar: AppBar(
+        title: const TitleText(label: 'customers orders'),
+      ),
+      body: FutureBuilder<List<OrderModel>>(
+        future: orderProvider.fetchOrder(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child:
+                  SelectableText('an error has been occured ${snapshot.error}'),
+            );
+          } else if (!snapshot.hasData || orderProvider.getOrders.isEmpty) {
+            return const EmptyScreen(
+              imagePath: Assets.imagesDashboardOrder,
+              title: 'there is no orders right now',
+            );
+          }
 
-            return ListView.separated(
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                    child:
-                        OrderWidget(orderModel: orderProvider.getOrders[index]),
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    thickness: 10,
-                  );
-                },
-                itemCount: snapshot.data!.length);
-          },
-        ));
+          return ListView.separated(
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                  child:
+                      OrderWidget(orderModel: orderProvider.getOrders[index]),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const Divider(
+                  thickness: 10,
+                );
+              },
+              itemCount: snapshot.data!.length);
+        },
+      ),
+    );
   }
 }

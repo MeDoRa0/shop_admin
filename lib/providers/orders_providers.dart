@@ -15,7 +15,7 @@ class OrderProvider with ChangeNotifier {
             orders.insert(
               0,
               OrderModel(
-                orderId: element.get('orderId'),
+                orderId: element.get('sharedOrderId'),
                 userId: element.get('userId'),
                 productId: element.get('productId'),
                 productTitle: element.get('productTitle'),
@@ -34,5 +34,4 @@ class OrderProvider with ChangeNotifier {
       rethrow;
     }
   }
-
 }
